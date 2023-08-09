@@ -23,3 +23,5 @@ Libraries
 4. Program dapat menghapus semua transaksi yang ada di list.
 5. Program dapat memasukkan transaksi yang ada di list kedalam database SQLite.
 
+![alt text](https://github.com/KyrieCettyara/Project-Super-Cashier/blob/main/Image/Function.png)
+

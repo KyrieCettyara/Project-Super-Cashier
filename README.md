@@ -23,5 +23,11 @@ Libraries
 4. Program dapat menghapus semua transaksi yang ada di list.
 5. Program dapat memasukkan transaksi yang ada di list kedalam database SQLite.
 
+## Function
+Berikut merupakan functions yang di dalam pembangungan sistem beserta dengan kegunaannya.
+
 ![alt text](https://github.com/KyrieCettyara/Project-Super-Cashier/blob/main/Image/Function.png)
+
+## Test Case
+Test Case 1
 

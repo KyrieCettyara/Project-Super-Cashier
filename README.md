@@ -31,3 +31,19 @@ Berikut merupakan functions yang di dalam pembangungan sistem beserta dengan keg
 ## Test Case
 Test Case 1
 
+![alt text](https://github.com/KyrieCettyara/Project-Super-Cashier/blob/main/Image/testCase1.png)
+
+Test Case 2
+
+![alt text](https://github.com/KyrieCettyara/Project-Super-Cashier/blob/main/Image/testCase2.png)
+
+Test Case 3
+
+![alt text](https://github.com/KyrieCettyara/Project-Super-Cashier/blob/main/Image/testCase3.png)
+
+Test Case 4
+
+![alt text](https://github.com/KyrieCettyara/Project-Super-Cashier/blob/main/Image/testCase4.png)
+
+
+

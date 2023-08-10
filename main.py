@@ -7,6 +7,41 @@ from prettytable import from_db_cursor
 list_item = []
 engine = create_engine('sqlite:///transactions.db')
 
+def CheckIsEmpty(item_name):
+    """
+    Function untuk melakukan check nama item kosong.
+
+    Parameter:
+        nama_item (string): nama dari item.
+
+    Returns:
+        isEmpty (boolean): true jika nama item kosong.
+    """
+    isEmpty = False
+    if(len(item_name) == 0):
+        isEmpty = True
+    
+    return isEmpty
+
+
+
+def CheckIsExist(item_name):
+    """
+    Function untuk melakukan check nama item ada di dalam list.
+
+    Parameter:
+        nama_item (string): nama dari item.
+
+    Returns:
+        isExist (boolean): true jika nama item ada dalam list.
+    """
+    isExist = False
+    isExist = any(item_name.lower() 
+                    in item[0].lower() 
+                    for item in list_item) 
+    
+    return isExist
+
 
 def create_table():
     """
@@ -32,7 +67,7 @@ harga_diskon float
     conn.close()
 
 
-#
+
 def insert_to_table():
     """
     Function untuk memasukkan list transaksi ke dalam table transaction.
@@ -87,13 +122,13 @@ def check_diskon(total_harga):
         
         return diskon, harga_diskon
     
-    elif((total_harga) >= float(300000):
+    elif((total_harga) >= float(300000)):
         diskon = total_harga * 0.06
         harga_diskon = total_harga * 0.94
         
         return diskon, harga_diskon
     
-    elif((total_harga) >= float(500000):
+    elif((total_harga) >= float(500000)):
         diskon = total_harga * 0.07
         harga_diskon = total_harga * 0.93
         
@@ -101,6 +136,7 @@ def check_diskon(total_harga):
     else:
         diskon = total_harga * 0
         harga_diskon = total_harga * 1
+       
         return diskon, harga_diskon
 
 
@@ -118,21 +154,16 @@ def add_item(item_name, item_qty, price_per_item):
     """
     total_harga = item_qty * price_per_item
 
-    #check nama item sudah diisi
-    if(len(item_name) == 0):
-        print("Nama barang tidak boleh kosong")
-        menu()
+    isExist = CheckIsExist(item_name)
+    IsEmpty = CheckIsEmpty(item_name)
 
-    #check item sudah terdaftar
-    isExist = any(item_name.lower() 
-                    in item[0].lower() 
-                    for item in list_item) 
-
-    if(isExist):
+    if (IsEmpty):
+        print('\nNama item tidak boleh kosong')
+    elif (isExist):
         print("\nItem sudah terdaftar")
-    else:
+    elif (not isExist and not IsEmpty):
         diskon, harga_diskon = check_diskon(total_harga)
-
+        
         new_item = [item_name, item_qty, price_per_item, total_harga, diskon, harga_diskon ]
         list_item.append(new_item) 
         print_pesanan()
@@ -154,10 +185,19 @@ def update_item_name(item_name, new_item_name):
         list_item (list) = item yang sudah dimasukkan.
     """
 
-    for item_list in list_item:
-        if item_list[0].lower()  == item_name.lower():
-            item_list[0] = new_item_name
-            print(f'''
+    isExist = CheckIsExist(item_name)
+    IsEmpty = CheckIsEmpty(item_name)
+
+    if (IsEmpty):
+        print('\nNama item tidak boleh kosong')
+    elif (not isExist):
+        print("\nItem tidak ditemukan")
+    elif (isExist and not IsEmpty):
+        print("\nItem name berhasil diubah")
+        for item_list in list_item:
+            if item_list[0].lower()  == item_name.lower():
+                item_list[0] = new_item_name
+                print(f'''
 item name: {item_list[0]}
 item quantity: {item_list[1]}
 item price: {item_list[2]}
@@ -179,16 +219,23 @@ def update_item_qty(item_name, new_item_qty):
     Returns:
         list_item (list) = item yang sudah dimasukkan.
     """
-    
+    isExist = CheckIsExist(item_name)
+    IsEmpty = CheckIsEmpty(item_name)
 
-    for item_list in list_item:
-        if item_list[0] == item_name:
-            item_list[1] = new_item_qty
-            print(f'''
+    if (IsEmpty):
+        print('\nNama item tidak boleh kosong')
+    elif (not isExist):
+        print("\nItem tidak ditemukan")
+    elif (isExist and not IsEmpty):
+        print("\nItem quantity berhasil diubah")
+        for item_list in list_item:
+            if item_list[0] == item_name:
+                item_list[1] = new_item_qty
+                print(f'''
 item name: {item_list[0]}
 item quantity: {item_list[1]}
 item price: {item_list[2]}''')
-
+                
     menu()
 
     return list_item
@@ -205,14 +252,23 @@ def update_item_price(item_name, new_item_price):
     Returns:
         list_item (list) = item yang sudah dimasukkan.
     """
-    for item_list in list_item:
-        if item_list[0] == item_name:
-            item_list[2] = new_item_price
-            print(f'''
+    isExist = CheckIsExist(item_name)
+    IsEmpty = CheckIsEmpty(item_name)
+
+    if (IsEmpty):
+        print('\nNama item tidak boleh kosong')
+    elif (not isExist):
+        print("\nItem tidak ditemukan")
+    elif (isExist and not IsEmpty):
+        print("\nItem price berhasil diubah")
+        for item_list in list_item:
+            if item_list[0] == item_name:
+                item_list[2] = new_item_price
+                print(f'''
 item name: {item_list[0]}
 item quantity: {item_list[1]}
 item price: {item_list[2]}''')
-
+        
     menu()
 
     return list_item
@@ -310,14 +366,14 @@ def check_out():
     
     print(table_view)
     
-    print(f"Total yang harus Dibayar: {total_bayar} ")
+    print(f"Total yang harus Dibayar: RP. {total_bayar} ")
 
 def leave():
     """
-    Function untuk keluar dari menu.
+        Function untuk keluar dari menu.
     """
     print("""
-    Terima kasih..
+    Anda telah keluar dari sistem. Terima kasih..
     """)
     
 
@@ -375,10 +431,12 @@ def menu():
 
     elif(menu=='9'):
         leave()
-    # if user input other than available in menu
+    # masukkan yang user berikan selain yang tersedia 1-9
     else:
         menu()
     
+
+
 menu()
 
 

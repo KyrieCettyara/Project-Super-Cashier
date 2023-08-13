@@ -387,6 +387,7 @@ def menu():
 6. Reset Transaction
 7. Check Order
 8. Check Out Order
+9. Leave
 ''')
     menu = input("Choose a menu: ")
 
@@ -435,7 +436,6 @@ def menu():
     else:
         menu()
     
-
 
 menu()
 
